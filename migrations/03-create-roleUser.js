@@ -5,12 +5,12 @@ module.exports = {
     await queryInterface.createTable('RoleUsers', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
       },
       UserId:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         onDelete: "CASCADE",
         allowNull: false,
         references: {
@@ -19,7 +19,7 @@ module.exports = {
         }
       },
       RoleId:{
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         onDelete: "CASCADE",
         allowNull: false,
         references: {

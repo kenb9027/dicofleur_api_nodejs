@@ -54,7 +54,7 @@ const errorHandler = error => {
 const todoRoutes = require("./routes/todo");
 
 // database connection
-require("./config/database");
+require("./config/config.js");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
