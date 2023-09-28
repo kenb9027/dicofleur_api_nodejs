@@ -68,8 +68,7 @@ app.get("/", (req, res) =>
         new Response(
             HttpStatus.OK.code,
             HttpStatus.OK.message,
-            `Welcome to the Dicofleur's API, v1.0.0`,
-            null
+            `Welcome to the Dicofleur's API, v1.0.0`
         )
     )
 );
@@ -93,7 +92,7 @@ server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe: ' + address : 'port: ' + PORT;
-  console.log('Listening on : ' + bind);
+    console.log('Listening on ' + bind);
 });
 
 
