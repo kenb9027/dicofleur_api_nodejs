@@ -11,15 +11,15 @@ module.exports = {
       },
       firstName: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       lastName: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       phone: {
         type: Sequelize.STRING,
-        allowNull: true ,
+        allowNull: true,
         unique: true
       },
       email: {
@@ -47,10 +47,6 @@ module.exports = {
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      },
-      deletedAt: {
-        allowNull: true,
         type: Sequelize.DATE
       }
     });

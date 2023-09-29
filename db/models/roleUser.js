@@ -16,6 +16,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   RoleUser.init({
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+    },
   }, {
     sequelize,
     modelName: 'RoleUser',

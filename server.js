@@ -25,7 +25,9 @@ const PORT = normalizePort(process.env.PORT || '3000');
 app.set('port', PORT);
 
 
-
+/**
+ * ERROR HANDLER
+ */
 const errorHandler = error => {
     if (error.syscall !== 'listen') {
       throw error;
@@ -53,11 +55,13 @@ const errorHandler = error => {
  */
 const trefleRoutes = require("./routes/trefle.routes.js");
 const usersRoutes = require("./routes/user.routes.js");
+const authRoutes = require("./routes/auth.routes.js");
 
 // database connection
 require("./config/config.js");
 
 app.use(cors());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
@@ -65,6 +69,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
  */
 app.use("/api/trefle", trefleRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/auth", authRoutes);
 app.get("/", (req, res) =>
     res.send(
         new Response(

@@ -1,11 +1,8 @@
-
-const User = require('../db/models').User;
-
-// const bcrypt = require('bcrypt');
 const constante = require("../utils/constantes.utils.js");
 const HttpStatus = require("../utils/httpStatus.utils.js");
 const Response = require("../utils/response.utils.js");
 const UUID = require("uuid");
+const User = require('../db/models').User;
 
 exports.findAllUser = (req, res) => {
     const isActivated = req.query.isActivated ?? true;
