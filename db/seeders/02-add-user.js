@@ -1,5 +1,7 @@
 'use strict';
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require("bcrypt");
+const constante = require('../../utils/constantes.utils.js');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -12,12 +14,14 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+    const pwd = await bcrypt.hash("12341234", constante.SALT_HASH_KEY);
     await queryInterface.bulkInsert('Users', [
       {
         id: uuidv4(),
         firstName:"John",
         lastName:"Doe",
-        password:'12341234',
+        nickName:"JoDoe",
+        password: pwd,
         phone:"0601020304",
         email: "john.doe@yopmail.com",
         isActivated: true,

@@ -3,8 +3,9 @@ const Role = require("../db/models").Role;
 const RoleUser = require("../db/models").RoleUser;
 const HttpStatus = require("../utils/httpStatus.utils.js");
 const Response = require("../utils/response.utils.js");
-const constante = require('../utils/constantes.utils.js');
+const constante = require("../utils/constantes.utils.js");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 exports.register = async (req, res) => {
@@ -150,4 +151,69 @@ exports.register = async (req, res) => {
     });
 };
 
-exports.login = (req, res, next) => {};
+exports.login = (req, res, next) => {
+    if (!req.body.password || !req.body.email) {
+        res.status(HttpStatus.BAD_REQUEST.code).send(
+            new Response(
+                HttpStatus.BAD_REQUEST.code,
+                HttpStatus.BAD_REQUEST.message,
+                `Content can not be empty!`
+            )
+        );
+        return;
+    }
+
+    console.log(`${req.method} ${req.originalUrl}, Fetching user.`);
+    User.findOne({ where: { email: req.body.email }})
+        .then((user) => {
+            if (!user) {
+                res.status(HttpStatus.BAD_REQUEST.code).send(
+                    new Response(
+                        HttpStatus.BAD_REQUEST.code,
+                        HttpStatus.BAD_REQUEST.message,
+                        `Email or password incorrect`
+                    )
+                );
+                return;
+            }
+            console.log(user)
+            bcrypt.compare(req.body.password, user.password, (err, result) => {
+                if (result) {
+                    const accessToken = jwt.sign(
+                        {
+                            id: user.id,
+                            email: user.email,
+                        },
+                        process.env.SECRET,
+                        { expiresIn: process.env.EXPIRES_IN }
+                    );
+                    res.status(HttpStatus.OK.code).send(
+                        new Response(
+                            HttpStatus.OK.code,
+                            HttpStatus.OK.message,
+                            `User retrieved`,
+                            { accessToken }
+                        )
+                    );
+                } else {
+                    res.status(HttpStatus.BAD_REQUEST.code).send(
+                        new Response(
+                            HttpStatus.BAD_REQUEST.code,
+                            HttpStatus.BAD_REQUEST.message,
+                            `Email or password incorrect`
+                        )
+                    );
+                }
+            });
+        })
+        .catch((err) => {
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(
+                new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.code,
+                    HttpStatus.INTERNAL_SERVER_ERROR.message,
+                    `Some error occurred while retrieving the account.`,
+                    { err }
+                )
+            );
+        });
+};

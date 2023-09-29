@@ -17,6 +17,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      nickName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true
+      },
       phone: {
         type: Sequelize.STRING,
         allowNull: true,
