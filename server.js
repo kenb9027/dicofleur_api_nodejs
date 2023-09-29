@@ -51,7 +51,8 @@ const errorHandler = error => {
 /**
  * ROUTES IMPORTATION
  */
-const todoRoutes = require("./routes/todo");
+const trefleRoutes = require("./routes/trefle.routes.js");
+const usersRoutes = require("./routes/user.routes.js");
 
 // database connection
 require("./config/config.js");
@@ -62,7 +63,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 /**
  * ROUTES
  */
-app.use("/api/todos", todoRoutes);
+app.use("/api/trefle", trefleRoutes);
+app.use("/api/users", usersRoutes);
 app.get("/", (req, res) =>
     res.send(
         new Response(
